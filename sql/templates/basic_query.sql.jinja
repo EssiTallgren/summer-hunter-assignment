@@ -1,0 +1,23 @@
+{# Modify some of the parameters that are passed to the template. #}
+{% set dimensions = ',\n '.join(dimensions) %}
+{% set group_by = ',\n'.join(group_by) if group_by else none %}
+{% set order_by = ',\n'.join(order_by) if order_by else none %}
+SELECT
+    {{ dimensions | sqlsafe }}
+FROM
+    {{ table | sqlsafe }}
+
+    {% if condition %}
+    WHERE
+        {{ condition }}
+    {% endif %}
+
+    {% if group_by %}
+    GROUP BY
+        {{ group_by }}
+    {% endif %}
+
+    {% if order_by %}
+    ORDER BY
+        {{ order_by }}
+    {% endif %}

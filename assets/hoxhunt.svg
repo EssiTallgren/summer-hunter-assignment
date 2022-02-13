@@ -1,0 +1,59 @@
+<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="sc-eXEjpC iqaOip">
+  <style>
+    @-webkit-keyframes fmCPdK {
+      0% {
+        stroke-dashoffset: 81.248749;
+      }
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+    @keyframes fmCPdK {
+      0% {
+        stroke-dashoffset: 81.248749;
+      }
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+    @keyframes shHoX {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+    }
+    @-webkit-keyframes shHoX {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+    }
+    .iqaOip {
+      width:2rem;
+      height:auto;
+      margin-left: auto;
+      margin-right: auto;
+      animation-fill-mode: backwards;
+      -webkit-animation-fill-mode: backwards;
+      animation-timing-function: ease-in-out;
+      -webkit-animation-timing-function: ease-in-out;
+      animation-delay: 1080ms;
+      -webkit-animation-delay: 1080ms;
+      animation-name: shHoX;
+      -webkit-animation-name: shHox;
+    }
+
+    .kSkYgV {
+      fill-opacity: 0;
+      stroke: #ee295c;
+      stroke-width: 3;
+      -webkit-animation-duration: 540ms;
+      animation-duration: 540ms;
+      -webkit-animation-timing-function: linear;
+      animation-timing-function: linear;
+      -webkit-animation-iteration-count: infinite;
+      animation-iteration-count: infinite;
+      stroke-dasharray: 20.31218719482422,60.936561584472656;
+      -webkit-animation-name: fmCPdK;
+      animation-name: fmCPdK;
+    }
+
+  </style>
+  <path pathLength="81.24874877929688" d="M29.2,6.3c-0.7,9.1-5.5,17.4-13.2,22.3C8.3,23.6,3.5,15.3,2.8,6.2C6.9,4.1,11.4,3,15.9,3C20.5,3,25.1,4.2,29.2,6.3L29.2,6.3z" class="sc-ibxdXY kSkYgV"></path>
+</svg>
