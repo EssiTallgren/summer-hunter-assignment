@@ -5,7 +5,7 @@ from typing import List
 import pandas as pd
 
 from config import TABLE_COLUMNS
-from user import DummyUser, User
+from user import ExperiencedUser, StandardUser, NoviceUser, User
 
 
 class Organization:
@@ -28,7 +28,7 @@ class Organization:
         # 3. change the distribution from uniform to something a bit more realistic
         users = []
         for i in range(self.n_users):
-            users.append(DummyUser())
+            users.append(StandardUser())
         return users
 
     def do_training(self) -> None:
