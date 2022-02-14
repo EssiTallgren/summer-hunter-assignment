@@ -27,16 +27,17 @@ class Organization:
         # 2. change this to populate the organization with your own user types
         # 3. change the distribution from uniform to something a bit more realistic
         """
-        My organization is a tech company with a fair amount of people with some experience with computers.
-        There are a lot of standard users that use computers in their work (45%), a 30% portion of experienced
-        users, and a 25% portion of novice users.
+        My organization is a tech company with a fair amount of people with some experience with
+        computers. There are a lot of standard users that use computers in their work (45%), a 25%
+        portion of experienced users, and a 30% portion of novice users.
         """
 
         users = []
 
-        experienced_amount = int(self.n_users*0.30)
+        experienced_amount = int(self.n_users*0.25)
         standard_amount = int(self.n_users*0.45)
-        # novice_amount = self.n_users - experienced_amount - standard_amount (not needed for the loop)
+        # novice_amount = self.n_users - experienced_amount - standard_amount
+        # (not needed for the loop)
 
         for i in range (0, self.n_users):
             if i < experienced_amount:

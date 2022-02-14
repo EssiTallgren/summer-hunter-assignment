@@ -28,29 +28,39 @@ def get_data_with_query() -> pd.DataFrame:
         table=DEFAULT_TABLE
     )
     query_db_to_df(query_params, result_columns=TABLE_COLUMNS)
+
+
+    In my SQL query excercise I first get all of the fail, miss and success data and group them by
+    user_id and put them in order by the success amounts. In the second SQL query I get the
+    timestamps and results of the simulations of the novice users to visualize how their hoxhunt
+    training affects their fail and miss rates.
     """
+
     # TODO(Task 3):
     # Write a SQL query that aggregates the simulated data to a format that you want to visualize
     # To do this, you will use a Jinja template that compiles a query from a set of given arguments
     # You are allowed to write multiple queries if you wish to visualize multiple things.
     # EXAMPLE: Get number of fails per user.
+
     query_params = QueryParams(
         dimensions=[
             "user_id",
             "name",
             "type",
             "COUNT(CASE WHEN outcome = 'FAIL' THEN 1 END) AS fails",
+            "COUNT(CASE WHEN outcome = 'MISS' THEN 1 END) AS misses",
+            "COUNT(CASE WHEN outcome = 'SUCCESS' THEN 1 END) AS successes",
         ],
         table=DEFAULT_TABLE,
         group_by=["user_id"],
-        order_by=["fails DESC"],
+        order_by=["successes DESC"],
     )
     # The function call above will result in the following query:
     # SELECT user_id, name, type, COUNT(CASE WHEN outcome = 'FAIL' THEN 1 END) AS fails
     # FROM training_result
     # GROUP BY user_id
     # ORDER BY fails DESC
-    return query_db_to_df(query_params, result_columns=["user_id", "name", "type", "fails"])
+    return query_db_to_df(query_params, result_columns=["user_id", "name", "type", "fails", "misses", "successes"])
 
 
 def main() -> None:

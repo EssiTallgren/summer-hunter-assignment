@@ -5,6 +5,7 @@ from uuid import uuid4
 
 import numpy as np
 import names
+from config import TRAINING_INTERVAL_DAYS
 
 from simulation import SIMULATION_OUTCOMES, SimulationResult
 
@@ -64,7 +65,12 @@ class User(metaclass=ABCMeta):
 
 # TODO(Task 1): Implement your own user classes.
 # All classes should be inherited from the above User class.
-# See the DummyUser class below user for an example.
+
+# The users' probabilities of failures and misses decrease when they go through
+# training. The learning curve is logarithmic for the standard user and for the
+# novice user it's linear. The experienced user doesn't learn much more from the
+# training. Only after the first simulation as they will get a refresher on the
+# topic.
 
 class ExperiencedUser(User):
     """
@@ -80,8 +86,14 @@ class ExperiencedUser(User):
         # The probability of an experienced user getting caught in a phishing attack
         # is low, as is the propability of a miss.
 
-        miss_prob = 0.05
-        fail_prob = 0.03
+        miss_prob = 0.10
+        fail_prob = 0.10
+
+        # After one training simulation the user gets better at spotting the phishing emails
+        if len(self.history) >= 1:
+            miss_prob = 0.04
+            fail_prob = 0.02
+
         success_prob = 1-miss_prob-fail_prob
 
         outcome = np.random.choice(SIMULATION_OUTCOMES, p = [success_prob, miss_prob, fail_prob])
@@ -101,11 +113,27 @@ class StandardUser(User):
         super(StandardUser, self).__init__(type="Standard")
 
     def _get_simulation_outcome(self) -> str:
-        # The probability of a miss or a fail is higher than for an experienced
-        # user
+        # The probability of a miss or a fail is higher than for an experienced user
 
         miss_prob = 0.35
         fail_prob = 0.15
+
+        # training simulation amounts affect training effectivity logarithmicly
+        training_curve = 5*np.log10(len(self.history))
+
+        # after 100 simulations the curve gives a value of 10. This will be seen as the max
+        # value of 'training'. Values bigger than 10 do not better the user's performance.
+        # Minimum miss_probability is 0.04 and fail_probability 0.02. This is accounted to
+        # human error.
+        if training_curve is np.nan:
+            pass
+        elif 0 < training_curve <= 10:
+            miss_prob = miss_prob-((miss_prob-0.04)*training_curve*0.1)
+            fail_prob = fail_prob-((fail_prob-0.02)*training_curve*0.1)
+        else:
+            miss_prob = 0.04
+            fail_prob = 0.02
+
         success_prob = 1-miss_prob-fail_prob
 
         outcome = np.random.choice(SIMULATION_OUTCOMES, p = [success_prob, miss_prob, fail_prob])
@@ -127,8 +155,21 @@ class NoviceUser(User):
         # The probability of a fail or a miss is considerably higher than with the standard
         # and experienced user.
 
-        miss_prob = 0.3
-        fail_prob = 0.5
+        miss_prob = 0.30
+        fail_prob = 0.50
+
+        # training simulation amounts affect the user's performance linearly.
+        training_lin = 1/100*len(self.history)
+
+        # after 100 training simulations, the user's performace doesn't increase. The minimum
+        # miss_probability is 0.04 and fail_probability 0.02.
+        if training_lin <= 1:
+            miss_prob = miss_prob - ((miss_prob-0.04)*training_lin)
+            fail_prob = fail_prob - ((fail_prob-0.02)*training_lin)
+        else:
+            miss_prob = 0.04
+            fail_prob = 0.02
+
         success_prob = 1-miss_prob-fail_prob
 
         outcome = np.random.choice(SIMULATION_OUTCOMES, p = [success_prob, miss_prob, fail_prob])
