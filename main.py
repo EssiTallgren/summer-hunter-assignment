@@ -30,10 +30,10 @@ def get_data_with_query() -> pd.DataFrame:
     query_db_to_df(query_params, result_columns=TABLE_COLUMNS)
 
 
-    In my SQL query excercise I first get all of the fail, miss and success data and group them by
-    user_id and put them in order by the success amounts. In the second SQL query I get the
-    timestamps and results of the simulations of the novice users to visualize how their hoxhunt
-    training affects their fail and miss rates.
+    In my SQL query excercise I first get all of the outcome data and group it by
+    user_id and put in in order by the outcomes. In the second to fourth SQL query I get the
+    timestamps and results of the simulations of the different users (queries divided by the
+    users) to visualize how their hoxhunt training affects their fail and success rates.
     """
 
     # TODO(Task 3):
