@@ -53,24 +53,74 @@ def get_data_with_query() -> pd.DataFrame:
         ],
         table=DEFAULT_TABLE,
         group_by=["user_id"],
-        order_by=["successes DESC"],
+        order_by=["fails DESC"],
+    )
+
+    query_params2 = QueryParams(
+        dimensions=[
+            "user_id",
+            "type",
+            "name",
+            "timestamp",
+            "outcome",
+        ],
+        table=DEFAULT_TABLE,
+        condition=["type = 'Novice'"],
+        order_by=["user_id"],
+    )
+
+    query_params3 = QueryParams(
+        dimensions=[
+            "type",
+            "timestamp",
+            "COUNT(CASE WHEN outcome = 'FAIL' THEN 1 END) AS fails",
+        ],
+        table=DEFAULT_TABLE,
+        condition=["type = 'Novice'"],
+        group_by=["timestamp"],
+        order_by=["timestamp"],
+    )
+
+    query_params4 = QueryParams(
+        dimensions=[
+            "type",
+            "timestamp",
+            "COUNT(CASE WHEN outcome = 'FAIL' THEN 1 END) AS fails",
+        ],
+        table=DEFAULT_TABLE,
+        condition=["type = 'Standard'"],
+        group_by=["timestamp"],
+        order_by=["timestamp"],
     )
     # The function call above will result in the following query:
     # SELECT user_id, name, type, COUNT(CASE WHEN outcome = 'FAIL' THEN 1 END) AS fails
     # FROM training_result
     # GROUP BY user_id
     # ORDER BY fails DESC
-    return query_db_to_df(query_params, result_columns=["user_id", "name", "type", "fails", "misses", "successes"])
+    return query_db_to_df(query_params, result_columns=["user_id", "name", "type", "fails", "misses", "successes"]), \
+        query_db_to_df(query_params2, result_columns=["user_id", "type", "name", "timestamp", "outcome"]), \
+        query_db_to_df(query_params3, result_columns=["type", "timestamp", "fails"]), \
+        query_db_to_df(query_params4, result_columns=["type", "timestamp", "fails"])
 
 
 def main() -> None:
     """Run the entire simulation application."""
     create_records_into_db()
     logger.info("Training results successfully uploaded to the database")
-    aggregated_data = get_data_with_query()
+    aggregated_data1, aggregated_data2, aggregated_data3, aggregated_data4 = get_data_with_query()
     logger.info("Aggregated training results have been fetched from the db.")
-    csv_filename = "visualize.csv"
-    aggregated_data.to_csv(csv_filename, index=False)
+
+    csv_filename = "visualize_outcomes.csv"
+    csv_filename2 = "visualize_novice_learning.csv"
+    csv_filename3 = "visualize_novice_learning_sum.csv"
+    csv_filename4 = "visualize_standard_learning_sum.csv"
+
+    aggregated_data1.to_csv(csv_filename, index=False)
+    aggregated_data2.to_csv(csv_filename2, index=False)
+    aggregated_data3.to_csv(csv_filename3, index=False)
+    aggregated_data4.to_csv(csv_filename4, index=False)
+
+
     logger.info("Data ready for visualization can be found in %s", csv_filename)
 
 

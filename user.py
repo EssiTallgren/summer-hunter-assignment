@@ -114,7 +114,6 @@ class StandardUser(User):
 
     def _get_simulation_outcome(self) -> str:
         # The probability of a miss or a fail is higher than for an experienced user
-
         miss_prob = 0.35
         fail_prob = 0.15
 
@@ -130,7 +129,7 @@ class StandardUser(User):
         elif 0 < training_curve <= 10:
             miss_prob = miss_prob-((miss_prob-0.04)*training_curve*0.1)
             fail_prob = fail_prob-((fail_prob-0.02)*training_curve*0.1)
-        else:
+        elif len(self.history) >= 100:
             miss_prob = 0.04
             fail_prob = 0.02
 

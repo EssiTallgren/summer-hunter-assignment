@@ -1,5 +1,6 @@
 {# Modify some of the parameters that are passed to the template. #}
 {% set dimensions = ',\n '.join(dimensions) %}
+{% set condition = ',\n'.join(condition) if condition else none %}
 {% set group_by = ',\n'.join(group_by) if group_by else none %}
 {% set order_by = ',\n'.join(order_by) if order_by else none %}
 SELECT
